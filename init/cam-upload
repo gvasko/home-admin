@@ -1,0 +1,8 @@
+/var/log/cam-upload.log {
+        daily
+        rotate 3
+        missingok
+        notifempty
+        create 0664 root adm
+}
+
