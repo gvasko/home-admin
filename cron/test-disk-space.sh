@@ -7,7 +7,7 @@ if [ -z $BASEDIR ]; then
 fi
 
 
-FREE_GB=$(df -BG --output=avail /mnt/nvrdisk/ | tail -1 | tr -dc '0-9')
+FREE_GB=$(df -BG --output=avail "$CAM_STORAGE_MNT/" | tail -1 | tr -dc '0-9')
 
 if [ "$FREE_GB" -lt "100" ]; then
 	$BASEDIR/tools/admin-notify.sh "WARNING! NVR disk below 100GB"
