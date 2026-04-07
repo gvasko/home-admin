@@ -12,6 +12,9 @@ echo -e "\n#############################" >> "$LOGFILE"
 echo "Cam storage sync starting..." >> "$LOGFILE"
 date >> "$LOGFILE"
 
+echo "RSYNC_CAM_SOURCE: $RSYNC_CAM_SOURCE" >> "$LOGFILE"
+echo "RSYNC_CAM_DEST: $RSYNC_CAM_DEST" >> "$LOGFILE"
+
 # Exit if an rsync process is already running
 if pgrep -x rsync >/dev/null; then
     echo "rsync is already running, exiting." >> "$LOGFILE"
@@ -25,7 +28,9 @@ if ! mountpoint -q "$CAM_BACKUP_MNT"; then
     exit 1
 fi
 
-rsync -avh --delete "$RSYNC_CAM_SOURCE" "RSYNC_CAM_DEST" >> "$LOGFILE" 2>&1
+RATE_LIMIT_KBPS=5000
+
+ionice -c 3 rsync --inplace --size-only -avh --delete --bwlimit=$RATE_LIMIT_KBPS "$RSYNC_CAM_SOURCE" "$RSYNC_CAM_DEST" >> "$LOGFILE" 2>&1
 rsyncStatus=$?
 
 if [ $rsyncStatus -ne 0 ]; then
