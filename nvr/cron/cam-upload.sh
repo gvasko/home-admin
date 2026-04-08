@@ -8,8 +8,9 @@ if [ -z $BASEDIR ]; then
 fi
 
 LOGFILE="/var/log/cam-upload.log"
+START_DATE=$(date)
 
-echo "START UPLOAD: $(date)" >> $LOGFILE
+echo "START UPLOAD: $START_DATE" >> $LOGFILE
 
 if pgrep -x "azcopy" > /dev/null
 then
@@ -19,7 +20,7 @@ fi
 
 export AZCOPY_CONCURRENCY_VALUE=1
 
-UPLOAD_MBPS=30
+UPLOAD_MBPS=50
 
 TIME_AGO=$(date --date='5 minutes ago' --iso-8601=seconds)
 
@@ -31,5 +32,11 @@ if [ $rsyncStatus -ne 0 ]; then
     $BASEDIR/tools/admin-notify.sh "ERROR! Camera upload azcopy error: $azcopyStatus"
 fi
 
-echo "FINISH UPLOAD: $(date)" >> $LOGFILE
+END_DATE=$(date)
+
+echo "FINISH UPLOAD: $END_DATE" >> $LOGFILE
+START_SEC=$(date -d "$START_DATE" +%s)
+END_SEC=$(date -d "$END_DATE" +%s)
+DIFF_SEC=$((END_SEC - START_SEC))
+echo "UPLOAD TOOK $DIFF_SEC seconds / $END_DATE" >> $LOGFILE
 
