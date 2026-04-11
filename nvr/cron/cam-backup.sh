@@ -28,7 +28,7 @@ if ! mountpoint -q "$CAM_BACKUP_MNT"; then
     exit 1
 fi
 
-RATE_LIMIT_KBPS=10000
+RATE_LIMIT_KBPS=20000
 
 ionice -c 3 rsync --inplace --size-only -avh --delete --bwlimit=$RATE_LIMIT_KBPS "$RSYNC_CAM_SOURCE" "$RSYNC_CAM_DEST" >> "$LOGFILE" 2>&1
 rsyncStatus=$?

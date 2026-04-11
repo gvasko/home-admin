@@ -15,8 +15,8 @@ docker run -d \
 	--cap-add=CAP_PERFMON \
 	--restart=unless-stopped \
 	--stop-timeout 30 \
-	--mount type=tmpfs,target=/tmp/cache,tmpfs-size=268435456 \
-	--shm-size=512m \
+	--mount type=tmpfs,target=/tmp/cache,tmpfs-size=1073741824 \
+	--shm-size=2048m \
 	-v $CAM_STORAGE_MNT/cam-storage:/media/frigate \
 	-v $CAM_STORAGE_MNT/cam-config:/config \
 	-v /etc/localtime:/etc/localtime:ro \
