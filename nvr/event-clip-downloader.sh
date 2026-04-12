@@ -33,7 +33,7 @@ mosquitto_sub -h "$MQTT_HOST" -t "frigate/events" | while read -r PAYLOAD; do
                 sleep $WAIT_TIME
                 
                 if curl -sf "http://$FRIGATE_HOST:5000/api/events/$EVENT_ID/clip.mp4" -o "$SAVE_DIR/$FILE_NAME"; then
-                    echo "Success: Saved clip for $EVENT_ID on attempt $RETRY_COUNT."
+                    echo "Success: Saved clip for $EVENT_ID on attempt $RETRY_COUNT: $FILE_NAME."
                     SUCCESS=true
                     break
                 else
@@ -44,7 +44,7 @@ mosquitto_sub -h "$MQTT_HOST" -t "frigate/events" | while read -r PAYLOAD; do
             done
 
             if [ "$SUCCESS" = false ]; then
-                echo "Final Error: Could not download clip for $EVENT_ID after $MAX_RETRIES attempts."
+                echo "Final Error: Could not download clip for $EVENT_ID after $MAX_RETRIES attempts: $FILE_NAME."
             fi
 	} &
     fi

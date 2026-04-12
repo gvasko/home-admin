@@ -53,6 +53,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./event-clip-downloader.sh:/event-clip-downloader.sh:ro
-      - ${CAM_STORAGE_MNT}/cam-detector:/clips
+      - ${LOCAL_CAM_DETECTOR_DIR}:/clips
     entrypoint: /bin/sh -c "apk add --no-cache mosquitto-clients jq curl bash && /event-clip-downloader.sh"    
 

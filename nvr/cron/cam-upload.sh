@@ -24,7 +24,13 @@ UPLOAD_MBPS=50
 
 TIME_AGO=$(date --date='5 minutes ago' --iso-8601=seconds)
 
-ionice -c 3 azcopy copy "$LOCAL_CAM_STORAGE_DIR/*" "$REMOTE_CAM_STORAGE_DIR/?$REMOTE_CAM_STORAGE_SAS" --recursive=true --cap-mbps $UPLOAD_MBPS --overwrite=false --include-after="$TIME_AGO" >> $LOGFILE 2>&1
+#SRC_DIR=$LOCAL_CAM_STORAGE_DIR
+#DEST_DIR=$REMOTE_CAM_STORAGE_DIR
+
+SRC_DIR=$LOCAL_CAM_DETECTOR_DIR
+DEST_DIR=$REMOTE_CAM_DETECTOR_DIR
+
+ionice -c 3 azcopy copy "$SRC_DIR/*" "$DEST_DIR/?$REMOTE_CAM_STORAGE_SAS" --recursive=true --cap-mbps $UPLOAD_MBPS --overwrite=false --include-after="$TIME_AGO" >> $LOGFILE 2>&1
 azcopyStatus=$?
 
 if [ $rsyncStatus -ne 0 ]; then
