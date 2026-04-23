@@ -26,7 +26,7 @@ NUMBER_OF_CHANGES=$(ionice -c 3 rsync --dry-run --stats --inplace --size-only -a
 
 echo "$NUMBER_OF_CHANGES"
 
-MESSAGE=${NUMBER_OF_CHANGES/Number of regular files transferred/Will copy next time}
+MESSAGE=${NUMBER_OF_CHANGES/Number of regular files transferred/Backup difference}
 
 $BASEDIR/tools/silent-notify.sh "INFO: $MESSAGE"
 
